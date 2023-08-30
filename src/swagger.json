@@ -1,0 +1,369 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "REST API for Swagger Documentation",
+      "version": "1.0.0"
+    },
+    "schemes": ["http"],
+    "servers": [{ "url": "http://localhost:3000/" }],
+    "paths": {
+      "/user/createuser": {
+        "post": {
+          "tags": ["Create User"],
+          "summary": "Create New User",
+          "description": "Create New User.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUserRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateUserResponse"
+                  }
+                }
+              }
+            },
+            "404": { "description": "Not found" },
+            "400": { "description": "Duplicate Email Error" },
+            "500": { "description": "Internal server error" }
+          }
+        }
+      },
+      "/user/login": {
+        "post": {
+          "tags": ["User Login"],
+          "summary": "User Login",
+          "description": "User Login and generate token for subsequent api calls.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserLoginRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserLoginResponse"
+                  }
+                }
+              }
+            },
+            "404": { "description": "Not found" },
+            "400": { "description": "Duplicate Email Error" },
+            "500": { "description": "Internal server error" }
+          }
+        }
+      },
+      "/userquote/generatequote": {
+        "post": {
+          "tags": ["Create Quote"],
+          "summary": "Create Quote",
+          "description": "Create Quote.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateQuoteRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateQuoteResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Validation Errors",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateQuoteValidationErrorResponse"
+                  }
+                }
+              }
+            },
+            "404": { "description": "Not found" },
+            "500": { "description": "Internal server error" }
+          }
+        }
+      },
+      "/userquote/retrieveuserquotes": {
+        "get": {
+          "security": [ { "JWT": [] } ],
+          "tags": ["Retrieve User Quote"],
+          "summary": "Retrieve User Quote",
+          "description": "Retrieve User Quote",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetrieveUserQuotesResponse"
+                  }
+                }
+              }
+            },
+            "400": { "description": "Bad Request" },
+            "404": { "description": "Not found" },
+            "500": { "description": "Internal server error" }
+          }
+        }
+      },
+      "/policy/createapplication/{QuoteID}": {
+        "post": {
+          "security": [ { "JWT": [] } ],
+          "parameters": [
+            {
+              "name": "QuoteID",
+              "in": "path",
+              "type": "number",
+              "required": true
+            }
+          ],
+          "tags": ["Create New Application from User Quote"],
+          "summary": "Create New Application from User Quote",
+          "description": "Create New Application from User Quote",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateNewApplicationResponse"
+                  }
+                }
+              }
+            },
+            "400": { "description": "Validation Errors" },
+            "404": { "description": "Invalid User Quote Details!" },
+            "500": { "description": "Internal server error" }
+          }
+        }
+      },
+      "/policy/retrieveapplication/{ApplicationId}/{email}": {
+        "post": {
+          "security": [ { "JWT": [] } ],
+          "parameters": [
+            {
+              "name": "ApplicationId",
+              "in": "path",
+              "type": "number",
+              "required": true
+            },
+            {
+              "name": "email",
+              "in": "path",
+              "type": "string",
+              "format": "email",
+              "required": true
+            }
+          ],
+          "tags": ["Retrieve User Application"],
+          "summary": "Retrieve User Application",
+          "description": "Retrieve User Application",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetrieveApplicationResponse"
+                  }
+                }
+              }
+            },
+            "400": { "description": "Validation Errors" },
+            "404": { "description": "Invalid User Quote Details!" },
+            "500": { "description": "Internal server error" }
+          }
+        }
+      },
+      "/policy/updateApplication/{ApplicationId}/{email}": {
+        "post": {
+          "security": [ { "JWT": [] } ],
+          "parameters": [
+            {
+              "name": "ApplicationId",
+              "in": "path",
+              "type": "number",
+              "required": true
+            },
+            {
+              "name": "email",
+              "in": "path",
+              "type": "string",
+              "format": "email",
+              "required": true
+            }
+          ],
+          "tags": ["Update User Application"],
+          "summary": "Update User Application",
+          "description": "Update User Application",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UpdateApplicationResponse"
+                  }
+                }
+              }
+            },
+            "400": { "description": "Validation Errors" },
+            "404": { "description": "Invalid User Quote Details!" },
+            "500": { "description": "Internal server error" }
+          }
+        }
+      }
+    },
+    "components": {
+      "securitySchemes": {
+        "JWT": {
+           "description": "",
+           "type": "apiKey",
+           "name": "x-access-token",
+           "in": "header"
+        }
+    },
+      "schemas": {
+        "CreateUserResponse": {
+          "type": "json",
+              "example": "{\"UserId\": 2,\"EmailAddress\": \"suriya12@test.com\",\"FirstName\": \"Suriyanarayanan\",\"LastName\": \"Ramanujam\",\"success\": true}"
+        },
+        "CreateUserRequest": {
+          "required": ["EmailAddress","Password","FirstName","LastName","SecurityQuestion"],
+          "properties": {
+            "EmailAddress": {
+              "type": "string",
+              "example": "suriya12@test.com"
+            },
+            "Password": {
+              "type": "string",
+              "example": "test"
+            },
+            "FirstName": {
+              "type": "string",
+              "example": "Suriyanarayanan"
+            },
+            "LastName": {
+              "type": "string",
+              "example": "Ramanujam"
+            },
+            "SecurityQuestion": {
+              "type": "string",
+              "example": "Demo"
+            }
+          }
+        },
+        "UserLoginResponse": {
+          "type": "json",
+           "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InN1cml5YTFAdGVzdC5jb20iLCJpYXQiOjE2OTMzMjYwMDcsImV4cCI6MTY5MzMyOTYwN30.XEx15CwT4A8ZHMOyuUT3iwXAdQRMgj6oTxQwxwNdkig"
+        },
+        "UserLoginRequest": {
+          "required": ["email","password"],
+          "properties": {
+            "email": {
+              "type": "string",
+              "example": "suriya12@test.com"
+            },
+            "password": {
+              "type": "string",
+              "example": "test"
+            }
+          }
+        },
+        "CreateQuoteResponse": {
+          "type": "json",
+           "example": "{\"QuoteID\": 1,\"PremiumAmount\": 10000}"
+        },
+        "CreateQuoteValidationErrorResponse":{
+          "type": "json",
+          "example": "{\"name\":\"SequelizeValidationError\",\"errors\":[{\"message\":\"Age is greater than 65\",\"type\":\"Validation error\",\"path\":\"DateOfBirth\",\"value\":\"1940-04-30\",\"origin\":\"FUNCTION\",\"instance\":{\"QuoteID\":null,\"State\":\"CA\",\"UserId\":null,\"DateOfBirth\":\"1940-04-30\",\"Gender\":\"M\",\"Feet\":7,\"Inches\":11,\"Weight\":350,\"SmokerStatus\":\"Smoker\",\"CoverageAmount\":100000,\"CoveragePeriod\":20,\"PremiumAmount\":13000,\"updatedAt\":\"2023-08-30T16:22:04.977Z\",\"createdAt\":\"2023-08-30T16:22:04.977Z\"},\"validatorKey\":\"IsValidAge\",\"validatorName\":null,\"validatorArgs\":[],\"original\":{}}]}"
+        },
+        "CreateQuoteRequest": {
+          "required": ["State","DateOfBirth","Gender","Feet","Inches","Weight","SmokerStatus","CoverageAmount","CoveragePeriod"],
+          "properties": {
+            "State": {
+              "type": "string",
+              "example": "CA"
+            },
+            "DateOfBirth": {
+              "type": "date",
+              "example": "04/30/1980"
+            },
+            "Gender": {
+              "type": "string",
+              "example": "M"
+            },
+            "Feet": {
+              "type": "number",
+              "example": 7
+            },
+            "Inches": {
+              "type": "number",
+              "example": 11
+            },
+            "Weight": {
+              "type": "number",
+              "example": 200
+            },
+            "SmokerStatus": {
+              "type": "string",
+              "example": "Smoker"
+            },
+            "CoverageAmount": {
+              "type": "number",
+              "example": 100000
+            },
+            "CoveragePeriod": {
+              "type": "number",
+              "example": 20
+            }
+          }
+        },
+        "RetrieveUserQuotesResponse": {
+          "type": "json",
+           "example": "[{\"QuoteID\":1,\"UserId\":1,\"State\":\"CA\",\"PremiumAmount\":10000,\"DateOfBirth\":\"1980-04-30\",\"Gender\":\"M\",\"Feet\":7,\"Inches\":11,\"Weight\":350,\"SmokerStatus\":\"Smoker\",\"CoverageAmount\":100000,\"CoveragePeriod\":20,\"createdAt\":\"2023-08-30T16:34:03.153Z\",\"updatedAt\":\"2023-08-30T16:34:06.887Z\"}]"
+        },
+        "CreateNewApplicationResponse": {
+          "type": "json",
+           "example": "{\"ApplicationId\":1,\"UserId\":1,\"FirstName\":\"Suriyanarayanan\",\"MiddleName\":\"Test\",\"LastName\":\"Ramanujam\",\"AddressLine1\":\"Chennai\",\"AddressLine2\":\"Tamil Nadu\",\"ZipCode\":600091,\"DateOfBirth\":\"1980-04-30\",\"Gender\":\"M\",\"Height\":\"7 ft 11 inches\",\"Weight\":\"350 pounds\",\"SmokerStatus\":\"Smoker\",\"Occupation\":\"SSE\",\"Salary\":50000,\"HealthCondition\":\"Normal\",\"LifeStyle\":\"Active\",\"CoverageAmount\":100000,\"CoveragePeriod\":20,\"updatedAt\":\"2023-08-30T16:57:09.938Z\",\"createdAt\":\"2023-08-30T16:57:09.938Z\",\"success\":true}"
+        },
+        "RetrieveApplicationResponse": {
+          "type": "json",
+           "example": "{\"ApplicationId\":1,\"UserId\":1,\"FirstName\":\"Suriyanarayanan\",\"MiddleName\":\"Test\",\"LastName\":\"Ramanujam\",\"AddressLine1\":\"Chennai\",\"AddressLine2\":\"Tamil Nadu\",\"ZipCode\":600091,\"DateOfBirth\":\"1980-04-30\",\"Gender\":\"M\",\"Height\":\"7 ft 11 inches\",\"Weight\":\"350 pounds\",\"SmokerStatus\":\"Smoker\",\"Occupation\":\"SSE\",\"Salary\":\"50000\",\"HealthCondition\":\"Normal\",\"LifeStyle\":\"Active\",\"CoverageAmount\":100000,\"CoveragePeriod\":20,\"createdAt\":\"2023-08-30T17:05:52.854Z\",\"updatedAt\":\"2023-08-30T17:05:52.854Z\"}"
+        },
+        "UpdateApplicationResponse": {
+          "type": "json",
+              "example": "{ \"Success\": true }"
+        }
+      }
+    }
+  }
