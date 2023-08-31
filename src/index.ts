@@ -10,7 +10,15 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../src/swagger.json';
 import winston from 'winston';
 
-sequelizesync();
+//sequelizesync();
+(async () => {
+  try {
+      await sequelizesync();
+  } catch (e) {
+      // Deal with the fact the chain failed
+  }
+  // `text` is not available here
+})();
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))

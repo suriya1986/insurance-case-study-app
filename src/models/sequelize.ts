@@ -47,14 +47,13 @@ sequelize.define('foo', {
     }
   });
 
-export const sequelizesync = function()
-{
-sequelize
-  .sync()
-  // .then((result) => {
-  // })
-  .catch((err) => {
-    logger.error(err);
-  });
-};
-
+  export const sequelizesync = async function()
+  {
+  await sequelize
+    .sync()
+    // .then((result) => {
+    // })
+    .catch((err) => {
+      logger.error(err);
+    });
+  };
