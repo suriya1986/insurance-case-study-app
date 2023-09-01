@@ -1,5 +1,4 @@
 import { UserQuote } from '../models/UserQuotesModel';
-import { logger } from '../logger/logger';
 
 export const GetUserQuote = async function (quoteId: number) {
     return await UserQuote.findByPk(quoteId);
@@ -10,8 +9,7 @@ export const UpdateUserQuote = async function (quoteId: number, userId: number) 
 };
 
 export const GenerateQuote = async function (dateOfBirth: Date, smokerStatus: string, weight: number, coveragePeriod: number, 
-    state: string,userId : number, feet: number,inches : number,coverageAmount: number, gender: string) {
-      logger.info(dateOfBirth)
+    state: string,userId : number|undefined, feet: number,inches : number,coverageAmount: number, gender: string) {
         var basePercent = 1;
         if (smokerStatus == "Smoker") {
           basePercent++;
@@ -43,18 +41,16 @@ export const GenerateQuote = async function (dateOfBirth: Date, smokerStatus: st
         else if (age >= 60) {
           basePercent += 5;
         }
-        if (coveragePeriod > 10 && coveragePeriod < 15) {
+        if (coveragePeriod > 10 && coveragePeriod <= 15) {
           basePercent += 1;
         }
-        else if (coveragePeriod >= 15 && coveragePeriod < 20) {
+        else if (coveragePeriod > 15 && coveragePeriod <= 20) {
           basePercent += 2;
         }
-        else if (coveragePeriod >= 20 && coveragePeriod < 25) {
+        else if (coveragePeriod > 20 && coveragePeriod <= 30) {
           basePercent += 3;
         }
-        else if (coveragePeriod >= 25 && coveragePeriod < 30) {
-          basePercent += 3;
-        }
+       
         return await UserQuote.create({
           State: state,
           UserId: userId ? userId : null,

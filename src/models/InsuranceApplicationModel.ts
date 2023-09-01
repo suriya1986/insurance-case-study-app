@@ -69,7 +69,11 @@ export const InsurancePolicyApplication = sequelize.define('InsurancePolicyAppli
         allowNull: false,
         validate:
         {
-            isIn:[["Normal","Diabetic","Heart Disease"]]
+            isIn:
+            {
+                args: [["Normal", "Diabetic", "Heart Disease"]],
+                msg: "Allowed values for HealthCondition are Normal, Diabetic or Heart Disease"
+            }
         }
     },
     LifeStyle: {
@@ -77,7 +81,11 @@ export const InsurancePolicyApplication = sequelize.define('InsurancePolicyAppli
         allowNull: false,
         validate:
         {
-            isIn:[["Sedentary","Active","Athlete"]]
+            isIn:
+            {
+                args: [["Sedentary", "Active", "Athlete"]],
+                msg: "Allowed values for LifeStyle are Sedentary, Active or Athlete"
+            }
         }
     },
     CoverageAmount: {
