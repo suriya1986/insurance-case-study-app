@@ -23,7 +23,7 @@ export const UserQuote = sequelize.define('UserQuotes', {
         validate: {
             isIn: {
                 args: [["CA", "NY", "NJ"]],
-                msg: "Allowed values for Gender are CA, NY or NJ"
+                msg: "Allowed values for State are CA, NY or NJ"
             }
         }
     },
@@ -69,7 +69,7 @@ export const UserQuote = sequelize.define('UserQuotes', {
         }
     },
     Feet: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false,
         validate:
         {
@@ -84,7 +84,7 @@ export const UserQuote = sequelize.define('UserQuotes', {
         }
     },
     Inches: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false,
         validate:
         {

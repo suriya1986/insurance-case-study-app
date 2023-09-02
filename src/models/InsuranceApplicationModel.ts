@@ -9,7 +9,7 @@ export const InsurancePolicyApplication = sequelize.define('InsurancePolicyAppli
         allowNull: false
     },
     UserId: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     FirstName: {
@@ -33,7 +33,7 @@ export const InsurancePolicyApplication = sequelize.define('InsurancePolicyAppli
         allowNull: true
     },
     ZipCode: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     DateOfBirth: {

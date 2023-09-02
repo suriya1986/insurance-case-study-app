@@ -1,9 +1,9 @@
 import express, { Request, Response, Router, NextFunction } from 'express';
 import bcrypt from "bcrypt";
 const router: Router = express.Router();
-import { logger } from '../logger/logger';
-import { CreateUser, RetrieveUserDetails, ValidatePassword, GenerateToken } from "../controllers/users.controller"
-import { GetUserQuote, UpdateUserQuote } from "../controllers/userquotes.controller"
+import { logger } from '../../logger/logger';
+import { CreateUser, RetrieveUserDetails, ValidatePassword, GenerateToken } from "../../controllers/users.controller"
+import { GetUserQuote, UpdateUserQuote } from "../../controllers/userquotes.controller"
 
 router.post('/createuser', async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -29,8 +29,8 @@ router.post('/createuser', async (req: Request, res: Response, next: NextFunctio
   }
   catch (ex: any) {
     logger.error(ex);
-    if (ex.errors && ex.errors.count > 0 && ex.errors[0].message === "EmailAddress must be unique") {
-      res.status(400).send(ex);
+    if (ex.errors && ex.errors.length > 0 && ex.name === "SequelizeUniqueConstraintError") {
+      res.status(400).send(ex.errors);
     }
     else {
       res.status(500).send(ex.message);

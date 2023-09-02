@@ -1,9 +1,9 @@
 import express, { Response, Router, NextFunction } from 'express';
-import { verifyToken, authorizeWithEmail } from "../middlewares/auth";
-import { logger } from '../logger/logger';
-import { RetrieveUserDetailsById, RetrieveUserDetails } from "../controllers/users.controller"
-import { RetrieveUserQuotesByQuoteId } from "../controllers/userquotes.controller"
-import { CreateApplication, RetrieveApplicationFromApplicationId, UpdateApplication } from "../controllers/policyapplication.controller"
+import { verifyToken, authorizeWithEmail } from "../../middlewares/auth";
+import { logger } from '../../logger/logger';
+import { RetrieveUserDetailsById, RetrieveUserDetails } from "../../controllers/users.controller"
+import { RetrieveUserQuotesByQuoteId } from "../../controllers/userquotes.controller"
+import { CreateApplication, RetrieveApplicationFromApplicationId, UpdateApplication } from "../../controllers/policyapplication.controller"
 const router: Router = express.Router();
 
 router.post('/createapplication/:QuoteID', verifyToken, async (req: any, res: Response, next: NextFunction) => {
@@ -40,7 +40,7 @@ router.post('/createapplication/:QuoteID', verifyToken, async (req: any, res: Re
     }
 });
 
-router.post('/retrieveapplication/:ApplicationId/:email', authorizeWithEmail, async (req: any, res: Response, next: NextFunction) => {
+router.get('/retrieveapplication/:ApplicationId/:email', authorizeWithEmail, async (req: any, res: Response, next: NextFunction) => {
     try {
         var user = await RetrieveUserDetails(req.params.email);
         if (user) {

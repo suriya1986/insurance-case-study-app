@@ -1,4 +1,3 @@
-import { combineTableNames } from 'sequelize/types/utils';
 import winston from 'winston';
 
 const myFormat = winston.format.printf(info => {

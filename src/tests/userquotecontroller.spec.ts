@@ -120,7 +120,7 @@ describe("Create New Quote Tests", () => {
         }
         catch (ex: any) {
             // assert
-            expect(ex.errors[0].message).toBe("Allowed values for Gender are CA, NY or NJ");
+            expect(ex.errors[0].message).toBe("Allowed values for State are CA, NY or NJ");
         }
     });
 

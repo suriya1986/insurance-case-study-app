@@ -1,7 +1,7 @@
 import express, { Response, Router, NextFunction } from 'express';
-import { verifyToken } from "../middlewares/auth";
-import { logger } from '../logger/logger';
-import { GenerateQuote, RetrieveUserQuotes } from "../controllers/userquotes.controller"
+import { verifyToken } from "../../middlewares/auth";
+import { logger } from '../../logger/logger';
+import { GenerateQuote, RetrieveUserQuotes } from "../../controllers/userquotes.controller"
 
 const router: Router = express.Router();
 

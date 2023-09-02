@@ -1,7 +1,5 @@
 import express from 'express';
-import { usersRouter } from './routes/Users';
-import { userQuoteRouter } from './routes/UserQuote';
-import { policyRouter } from './routes/PolicyApplication';
+import { versionOneRouter } from './routes/v1/routes';
 import { config } from './config';
 var bodyParser = require('body-parser')
 import { sequelizesync } from './models/sequelize';
@@ -10,21 +8,17 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../src/swagger.json';
 import winston from 'winston';
 
-//sequelizesync();
 (async () => {
   try {
       await sequelizesync();
   } catch (e) {
-      // Deal with the fact the chain failed
+    logger.error(e);
   }
-  // `text` is not available here
 })();
 const app = express();
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use("/user", usersRouter);
-app.use("/userquote", userQuoteRouter);
-app.use("/policy", policyRouter);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use("/v1",versionOneRouter);
 
 app.use(
   "/api-docs",
