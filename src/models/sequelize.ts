@@ -5,7 +5,7 @@ import { config } from '../config';
 //   config.DATABASE!,config.USER!,config.PASSWORD!,{host:config.SERVER!}
 // );
 export const sequelize =
-  process.env.NODE_ENV == 'TEST' ? new Sequelize('sqlite::memory:') :
+  (process.env.NODE_ENV == 'TEST' || process.env.NODE_ENV == 'development') ? new Sequelize('sqlite::memory:') :
     new Sequelize(
       config.DATABASE!,
       config.USER!,
