@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from './sequelize';
+import { Users } from './UserModel';
 
 export const UserQuote = sequelize.define('UserQuotes', {
     QuoteID: {
@@ -10,7 +11,11 @@ export const UserQuote = sequelize.define('UserQuotes', {
     },
     UserId: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: true,
+        references: {
+            model: Users,
+            key: 'UserId'
+        }
     },
     State: {
         type: DataTypes.STRING,
@@ -18,7 +23,7 @@ export const UserQuote = sequelize.define('UserQuotes', {
         validate: {
             isIn: {
                 args: [["CA", "NY", "NJ"]],
-                msg: "Allowed values for Gender are CA, NY or NJ"
+                msg: "Allowed values for State are CA, NY or NJ"
             }
         }
     },
@@ -43,11 +48,10 @@ export const UserQuote = sequelize.define('UserQuotes', {
                     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
                         age--;
                     }
-                    if (age <18) {
+                    if (age < 18) {
                         throw new Error("Age is less than 18");
                     }
-                    else if(age>65)
-                    {
+                    else if (age > 65) {
                         throw new Error("Age is greater than 65");
                     }
                 }
@@ -65,7 +69,7 @@ export const UserQuote = sequelize.define('UserQuotes', {
         }
     },
     Feet: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false,
         validate:
         {
@@ -73,15 +77,14 @@ export const UserQuote = sequelize.define('UserQuotes', {
                 if (value === null) {
                     throw new Error("Feet can't be null");
                 }
-                if(value>7)
-                {
+                if (value > 7) {
                     throw new Error("Feet is greater than allowed limit(7 feet)");
                 }
             }
         }
     },
     Inches: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false,
         validate:
         {
@@ -89,8 +92,7 @@ export const UserQuote = sequelize.define('UserQuotes', {
                 if (value === null) {
                     throw new Error("Inches can't be null");
                 }
-                if(value>11)
-                {
+                if (value > 11) {
                     throw new Error("Inches is greater than allowed limit(11 Inches)");
                 }
             }
@@ -105,8 +107,7 @@ export const UserQuote = sequelize.define('UserQuotes', {
                 if (value === null) {
                     throw new Error("Weight can't be null");
                 }
-                if(value>350)
-                {
+                if (value > 350) {
                     throw new Error("Weight is greater than allowed limit(350 pounds)");
                 }
             }

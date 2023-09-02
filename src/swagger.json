@@ -7,7 +7,7 @@
     "schemes": ["http"],
     "servers": [{ "url": "http://localhost:3000/" }],
     "paths": {
-      "/user/createuser": {
+      "/v1/user/createuser": {
         "post": {
           "tags": ["Create User"],
           "summary": "Create New User",
@@ -34,12 +34,21 @@
               }
             },
             "404": { "description": "Not found" },
-            "400": { "description": "Duplicate Email Error" },
+            "400": { 
+              "description": "Duplicate Email Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateUserValidationErrorResponse"
+                  }
+                }
+              } 
+            },
             "500": { "description": "Internal server error" }
           }
         }
       },
-      "/user/login": {
+      "/v1/user/login": {
         "post": {
           "tags": ["User Login"],
           "summary": "User Login",
@@ -71,7 +80,7 @@
           }
         }
       },
-      "/userquote/generatequote": {
+      "/v1/userquote/generatequote": {
         "post": {
           "tags": ["Create Quote"],
           "summary": "Create Quote",
@@ -112,7 +121,7 @@
           }
         }
       },
-      "/userquote/retrieveuserquotes": {
+      "/v1/userquote/retrieveuserquotes": {
         "get": {
           "security": [ { "JWT": [] } ],
           "tags": ["Retrieve User Quote"],
@@ -135,7 +144,7 @@
           }
         }
       },
-      "/policy/createapplication/{QuoteID}": {
+      "/v1/policy/createapplication/{QuoteID}": {
         "post": {
           "security": [ { "JWT": [] } ],
           "parameters": [
@@ -166,8 +175,8 @@
           }
         }
       },
-      "/policy/retrieveapplication/{ApplicationId}/{email}": {
-        "post": {
+      "/v1/policy/retrieveapplication/{ApplicationId}/{email}": {
+        "get": {
           "security": [ { "JWT": [] } ],
           "parameters": [
             {
@@ -204,7 +213,7 @@
           }
         }
       },
-      "/policy/updateApplication/{ApplicationId}/{email}": {
+      "/v1/policy/updateApplication/{ApplicationId}/{email}": {
         "post": {
           "security": [ { "JWT": [] } ],
           "parameters": [
@@ -256,6 +265,10 @@
         "CreateUserResponse": {
           "type": "json",
               "example": "{\"UserId\": 2,\"EmailAddress\": \"suriya12@test.com\",\"FirstName\": \"Suriyanarayanan\",\"LastName\": \"Ramanujam\",\"success\": true}"
+        },
+        "CreateUserValidationErrorResponse":{
+          "type": "json",
+          "example": "[{\"message\":\"UQ__Users__49A14740F464B09A must be unique\",\"type\":\"unique violation\",\"path\":\"UQ__Users__49A14740F464B09A\",\"value\":\"suriya12@test.com\",\"origin\":\"DB\",\"instance\":{\"UserId\":null,\"EmailAddress\":\"suriya12@test.com\",\"FirstName\":\"Suriyanarayanan\",\"LastName\":\"Ramanujam\",\"SecurityQuestion\":\"Test\"},\"validatorKey\":\"not_unique\",\"validatorName\":null,\"validatorArgs\":[]}]"
         },
         "CreateUserRequest": {
           "required": ["EmailAddress","Password","FirstName","LastName","SecurityQuestion"],

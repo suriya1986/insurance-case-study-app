@@ -32,8 +32,18 @@ export const Users = sequelize.define('Users', {
     allowNull: false
   }
 }, {
+  
   modelName: 'Users'
 });
+Users.prototype.toJSON =  function () {
+  var values = Object.assign({}, this.get());
+
+  delete values.Password;
+  delete values.parent;
+  delete values.original;
+  return values;
+}
+//Users.prototype.toJSON = function(){ return this.UserId, this.EmailAddress, this.FirstName,this.LastName,this.SecurityQuestion };
 Users.hasMany(UserQuote, {
   foreignKey:'UserId',
   as:'UserQuotes'
